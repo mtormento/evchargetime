@@ -33,7 +33,6 @@ func TestBuildSortedChargeInfoArray(t *testing.T) {
 
 	_, err = BuildSortedChargeInfoArray("../../data/non_existent_file.txt")
 	assert.NotNil(err)
-	assert.Equal("open ../../data/non_existent_file.txt: no such file or directory", err.Error())
 
 	_, err = BuildSortedChargeInfoArray("../../data/charging_data_error_1.txt")
 	assert.NotNil(err)
