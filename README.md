@@ -1,6 +1,7 @@
 # EV Charge Time Leaderboard
 
-This application identifies the *n* employees who have used the carging stations the most over a specific period of time.
+This application identifies the *n* employees who have used the charging stations the most over a specific period of time, by reading a text data file that provides the charging times of different employees.  
+The algorithm used has a time complexity of *nlog(n)* on average and a space complexity of *n* in the worst case (no duplicate employee id in data file), where *n* is the number of rows in the data file.
 
 ## Table of Contents
 
@@ -68,13 +69,13 @@ go test -timeout 30s -cover github.com/mtormento/evchargetime/go/fmt
 ```
 
 ## Benchmarking
-This benchmark will run the program on about 1 millions rows.
+This benchmark will run the program on about 1 million rows.
 ```sh
 go test -bench . github.com/mtormento/evchargetime/go/calc
 ```
 
 ### Result on test system
-This benchmark run has executed the program 4 times in a row on about 1 millions rows on a test system.
+This benchmark run has executed the program 4 times in a row on about 1 million rows on a test system.
 ```
 goos: linux
 goarch: amd64
