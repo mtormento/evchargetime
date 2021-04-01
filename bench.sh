@@ -1,3 +1,3 @@
 #!/bin/bash
 
-go test -bench . daze.com/evchargetime/go/calc
+go test -bench . github.com/mtormento/evchargetime/go/calc

@@ -67,6 +67,19 @@ go test -timeout 30s -cover github.com/mtormento/evchargetime/go/fmt
 ```
 
 ## Benchmarking
+This benchmark will run the program on about 1 millions rows.
 ```sh
 go test -bench . github.com/mtormento/evchargetime/go/calc
+```
+
+### Result on test system
+This benchmark has run the program 4 times in a row on 1 millions rows on a test system.
+```
+goos: linux
+goarch: amd64
+pkg: github.com/mtormento/evchargetime/go/calc
+cpu: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+BenchmarkBuildOrderedChargeInfoArray-12    	       4	 309407224 ns/op
+PASS
+ok  	github.com/mtormento/evchargetime/go/calc	2.399s
 ```
