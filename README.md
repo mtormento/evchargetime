@@ -80,7 +80,7 @@ goos: linux
 goarch: amd64
 pkg: github.com/mtormento/evchargetime/go/calc
 cpu: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
-BenchmarkBuildOrderedChargeInfoArray-12    	       4	 309407224 ns/op
+BenchmarkBuildSortedChargeInfoArray-12    	       4	 327289362 ns/op
 PASS
-ok  	github.com/mtormento/evchargetime/go/calc	2.399s
+ok  	github.com/mtormento/evchargetime/go/calc	2.519s
 ```
