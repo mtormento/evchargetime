@@ -11,22 +11,25 @@ import (
 )
 
 type ChargeInfo struct {
-	Plate   string
-	Elapsed time.Duration
+	EmployeeId string
+	Elapsed    time.Duration
 }
 
-func BuildOrderedChargeInfoArray(filename string) ([]ChargeInfo, error) {
+// BuildSortedChargeInfoArray builds an change info array, sorted by duration desc and employee asc
+func BuildSortedChargeInfoArray(filename string) ([]ChargeInfo, error) {
+	// Open file
 	file, err := os.Open(filename)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
-	plateToChargeInfoMap := make(map[string]ChargeInfo)
+	employeeIdToChargeInfoMap := make(map[string]ChargeInfo)
 
 	firstLine := true
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
+		// Skip header line
 		if firstLine {
 			firstLine = false
 			continue
@@ -36,43 +39,48 @@ func BuildOrderedChargeInfoArray(filename string) ([]ChargeInfo, error) {
 		if len(tokens) != 3 {
 			return nil, errors.New("invalid data")
 		} else {
-			plate, elapsed, err := decodeTokens(tokens)
+			employeeId, elapsed, err := decodeTokens(tokens)
 			if err != nil {
 				return nil, err
 			}
-			ci, ok := plateToChargeInfoMap[plate]
+			ci, ok := employeeIdToChargeInfoMap[employeeId]
 			if ok {
+				// If employee id already exists add duration
 				ci.Elapsed += elapsed
-				plateToChargeInfoMap[plate] = ci
+				employeeIdToChargeInfoMap[employeeId] = ci
 			} else {
-				plateToChargeInfoMap[plate] = ChargeInfo{plate, elapsed}
+				employeeIdToChargeInfoMap[employeeId] = ChargeInfo{employeeId, elapsed}
 			}
 		}
 	}
 	if err := scanner.Err(); err != nil {
 		return nil, err
 	}
-	arrayOfPlates := make([]ChargeInfo, len(plateToChargeInfoMap))
+	// Dump charge infos to array
+	chargeInfoArray := make([]ChargeInfo, len(employeeIdToChargeInfoMap))
 	idx := 0
-	for _, element := range plateToChargeInfoMap {
-		arrayOfPlates[idx] = element
+	for _, element := range employeeIdToChargeInfoMap {
+		chargeInfoArray[idx] = element
 		idx++
 	}
 
-	orderByChargeTimeAndPlate(arrayOfPlates)
+	// Sort charge infos
+	sortByChargeTimeAndEmployeeId(chargeInfoArray)
 
-	return arrayOfPlates, nil
+	return chargeInfoArray, nil
 }
 
-func orderByChargeTimeAndPlate(arrayOfPlates []ChargeInfo) {
-	sort.Slice(arrayOfPlates, func(i, j int) bool {
-		if arrayOfPlates[i].Elapsed > arrayOfPlates[j].Elapsed {
+// Sort function
+func sortByChargeTimeAndEmployeeId(chargeInfoArray []ChargeInfo) {
+	sort.Slice(chargeInfoArray, func(i, j int) bool {
+		if chargeInfoArray[i].Elapsed > chargeInfoArray[j].Elapsed {
 			return true
 		}
-		if arrayOfPlates[i].Elapsed < arrayOfPlates[j].Elapsed {
+		if chargeInfoArray[i].Elapsed < chargeInfoArray[j].Elapsed {
 			return false
 		}
-		return arrayOfPlates[i].Plate < arrayOfPlates[j].Plate
+		// If duration is equal sort by employee id
+		return chargeInfoArray[i].EmployeeId < chargeInfoArray[j].EmployeeId
 	})
 }
 

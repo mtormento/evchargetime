@@ -8,55 +8,55 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func BenchmarkBuildOrderedChargeInfoArray(b *testing.B) {
+func BenchmarkBuildSortedChargeInfoArray(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		BuildOrderedChargeInfoArray("../../data/charging_data_big.txt")
+		BuildSortedChargeInfoArray("../../data/charging_data_big.txt")
 	}
 }
 
-func TestBuildOrderedChargeInfoArray(t *testing.T) {
+func TestBuildSortedChargeInfoArray(t *testing.T) {
 	assert := assert.New(t)
 
-	chargeInfoArray, err := BuildOrderedChargeInfoArray("../../data/charging_data.txt")
+	chargeInfoArray, err := BuildSortedChargeInfoArray("../../data/charging_data.txt")
 	assert.Nil(err)
 	assert.NotNil(chargeInfoArray)
 	assert.Equal(15, len(chargeInfoArray))
 
-	chargeInfoArray, err = BuildOrderedChargeInfoArray("../../data/charging_data_example.txt")
+	chargeInfoArray, err = BuildSortedChargeInfoArray("../../data/charging_data_example.txt")
 	assert.Nil(err)
-	assert.Equal("PTTG8", chargeInfoArray[0].Plate)
+	assert.Equal("PTTG8", chargeInfoArray[0].EmployeeId)
 	assert.Equal("3h36m", fmt.FmtDuration(chargeInfoArray[0].Elapsed))
-	assert.Equal("ZEAY5", chargeInfoArray[1].Plate)
+	assert.Equal("ZEAY5", chargeInfoArray[1].EmployeeId)
 	assert.Equal("2h41m", fmt.FmtDuration(chargeInfoArray[1].Elapsed))
-	assert.Equal("JFFO9", chargeInfoArray[2].Plate)
+	assert.Equal("JFFO9", chargeInfoArray[2].EmployeeId)
 	assert.Equal("2h32m", fmt.FmtDuration(chargeInfoArray[2].Elapsed))
 
-	_, err = BuildOrderedChargeInfoArray("../../data/non_existent_file.txt")
+	_, err = BuildSortedChargeInfoArray("../../data/non_existent_file.txt")
 	assert.NotNil(err)
 	assert.Equal("open ../../data/non_existent_file.txt: no such file or directory", err.Error())
 
-	_, err = BuildOrderedChargeInfoArray("../../data/charging_data_error_1.txt")
+	_, err = BuildSortedChargeInfoArray("../../data/charging_data_error_1.txt")
 	assert.NotNil(err)
 	assert.Equal("elapsed < 0", err.Error())
 
-	_, err = BuildOrderedChargeInfoArray("../../data/charging_data_error_2.txt")
+	_, err = BuildSortedChargeInfoArray("../../data/charging_data_error_2.txt")
 	assert.NotNil(err)
 	assert.Equal("elapsed < 0", err.Error())
 
-	_, err = BuildOrderedChargeInfoArray("../../data/charging_data_error_3.txt")
+	_, err = BuildSortedChargeInfoArray("../../data/charging_data_error_3.txt")
 	assert.NotNil(err)
 	assert.Equal("strconv.ParseInt: parsing \"not_valid\": invalid syntax", err.Error())
 
-	_, err = BuildOrderedChargeInfoArray("../../data/charging_data_error_4.txt")
+	_, err = BuildSortedChargeInfoArray("../../data/charging_data_error_4.txt")
 	assert.NotNil(err)
 	assert.Equal("strconv.ParseInt: parsing \"not_valid\": invalid syntax", err.Error())
 
-	_, err = BuildOrderedChargeInfoArray("../../data/charging_data_error_5.txt")
+	_, err = BuildSortedChargeInfoArray("../../data/charging_data_error_5.txt")
 	assert.NotNil(err)
 	assert.Equal("invalid data", err.Error())
 }
 
-func TestOrderByChargeTimeAndPlate(t *testing.T) {
+func TestSortByChargeTimeAndEmployeeId(t *testing.T) {
 	assert := assert.New(t)
 
 	ChargeInfoArray := make([]ChargeInfo, 4)
@@ -65,14 +65,14 @@ func TestOrderByChargeTimeAndPlate(t *testing.T) {
 	ChargeInfoArray[2] = ChargeInfo{"AAAAA", 10 * time.Second}
 	ChargeInfoArray[3] = ChargeInfo{"DDDDD", 10 * time.Second}
 
-	orderByChargeTimeAndPlate(ChargeInfoArray)
-	assert.Equal("AAAAA", ChargeInfoArray[0].Plate)
+	sortByChargeTimeAndEmployeeId(ChargeInfoArray)
+	assert.Equal("AAAAA", ChargeInfoArray[0].EmployeeId)
 	assert.Equal(10*time.Second, ChargeInfoArray[0].Elapsed)
-	assert.Equal("BBBBB", ChargeInfoArray[1].Plate)
+	assert.Equal("BBBBB", ChargeInfoArray[1].EmployeeId)
 	assert.Equal(10*time.Second, ChargeInfoArray[1].Elapsed)
-	assert.Equal("CCCCC", ChargeInfoArray[2].Plate)
+	assert.Equal("CCCCC", ChargeInfoArray[2].EmployeeId)
 	assert.Equal(10*time.Second, ChargeInfoArray[2].Elapsed)
-	assert.Equal("DDDDD", ChargeInfoArray[3].Plate)
+	assert.Equal("DDDDD", ChargeInfoArray[3].EmployeeId)
 	assert.Equal(10*time.Second, ChargeInfoArray[3].Elapsed)
 
 	ChargeInfoArray[0] = ChargeInfo{"BBBBB", 40 * time.Second}
@@ -80,14 +80,14 @@ func TestOrderByChargeTimeAndPlate(t *testing.T) {
 	ChargeInfoArray[2] = ChargeInfo{"AAAAA", 30 * time.Second}
 	ChargeInfoArray[3] = ChargeInfo{"DDDDD", 10 * time.Second}
 
-	orderByChargeTimeAndPlate(ChargeInfoArray)
-	assert.Equal("BBBBB", ChargeInfoArray[0].Plate)
+	sortByChargeTimeAndEmployeeId(ChargeInfoArray)
+	assert.Equal("BBBBB", ChargeInfoArray[0].EmployeeId)
 	assert.Equal(40*time.Second, ChargeInfoArray[0].Elapsed)
-	assert.Equal("AAAAA", ChargeInfoArray[1].Plate)
+	assert.Equal("AAAAA", ChargeInfoArray[1].EmployeeId)
 	assert.Equal(30*time.Second, ChargeInfoArray[1].Elapsed)
-	assert.Equal("CCCCC", ChargeInfoArray[2].Plate)
+	assert.Equal("CCCCC", ChargeInfoArray[2].EmployeeId)
 	assert.Equal(20*time.Second, ChargeInfoArray[2].Elapsed)
-	assert.Equal("DDDDD", ChargeInfoArray[3].Plate)
+	assert.Equal("DDDDD", ChargeInfoArray[3].EmployeeId)
 	assert.Equal(10*time.Second, ChargeInfoArray[3].Elapsed)
 }
 

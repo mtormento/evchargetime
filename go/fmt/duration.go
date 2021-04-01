@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// FmtDuration formats a duration in 0h00m format
 func FmtDuration(d time.Duration) string {
 	if d < 0 {
 		return "0h00m"

@@ -34,12 +34,14 @@ func main() {
 		log.Fatal("Number of lines must be > 0")
 	}
 
-	arrayOfPlates, err := calc.BuildOrderedChargeInfoArray(datafile)
+	// Build ordered array of charge info structures, that contains employee id and charge time
+	chargeInfoArray, err := calc.BuildOrderedChargeInfoArray(datafile)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	for idx, chargeInfo := range arrayOfPlates {
+	// Print only <lines> number of lines
+	for idx, chargeInfo := range chargeInfoArray {
 		if idx >= lines {
 			break
 		}
