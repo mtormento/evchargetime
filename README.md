@@ -59,6 +59,7 @@ PTTG8 3h36m
 ZEAY5 2h41m
 JFFO9 2h32m
 ```
+Note: seconds are rounded to minutes using floor function, requirement deducted from example output.
 
 ## Testing
 ```sh
