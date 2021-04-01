@@ -29,4 +29,8 @@ func TestFmtDuration(t *testing.T) {
 	duration = -time.Hour * 1000
 	formattedDuration = FmtDuration(duration)
 	assert.Equal("0h00m", formattedDuration)
+
+	duration = time.Millisecond * 9162321
+	formattedDuration = FmtDuration(duration)
+	assert.Equal("2h32m", formattedDuration)
 }

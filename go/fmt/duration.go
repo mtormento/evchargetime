@@ -9,7 +9,7 @@ func FmtDuration(d time.Duration) string {
 	if d < 0 {
 		return "0h00m"
 	}
-	d = d.Round(time.Minute)
+	d = d.Round(time.Second)
 	h := d / time.Hour
 	d -= h * time.Hour
 	m := d / time.Minute

@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/mtormento/evchargetime/go/fmt"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,10 +17,23 @@ func BenchmarkBuildOrderedChargeInfoArray(b *testing.B) {
 func TestBuildOrderedChargeInfoArray(t *testing.T) {
 	assert := assert.New(t)
 
-	ChargeInfoArray, err := BuildOrderedChargeInfoArray("../../data/charging_data.txt")
+	chargeInfoArray, err := BuildOrderedChargeInfoArray("../../data/charging_data.txt")
 	assert.Nil(err)
-	assert.NotNil(ChargeInfoArray)
-	assert.Equal(15, len(ChargeInfoArray))
+	assert.NotNil(chargeInfoArray)
+	assert.Equal(15, len(chargeInfoArray))
+
+	chargeInfoArray, err = BuildOrderedChargeInfoArray("../../data/charging_data_example.txt")
+	assert.Nil(err)
+	assert.Equal("PTTG8", chargeInfoArray[0].Plate)
+	assert.Equal("3h36m", fmt.FmtDuration(chargeInfoArray[0].Elapsed))
+	assert.Equal("ZEAY5", chargeInfoArray[1].Plate)
+	assert.Equal("2h41m", fmt.FmtDuration(chargeInfoArray[1].Elapsed))
+	assert.Equal("JFFO9", chargeInfoArray[2].Plate)
+	assert.Equal("2h32m", fmt.FmtDuration(chargeInfoArray[2].Elapsed))
+
+	_, err = BuildOrderedChargeInfoArray("../../data/non_existent_file.txt")
+	assert.NotNil(err)
+	assert.Equal("open ../../data/non_existent_file.txt: no such file or directory", err.Error())
 
 	_, err = BuildOrderedChargeInfoArray("../../data/charging_data_error_1.txt")
 	assert.NotNil(err)
