@@ -56,7 +56,7 @@ func BuildSortedChargeInfoArray(filename string) ([]ChargeInfo, error) {
 	if err := scanner.Err(); err != nil {
 		return nil, err
 	}
-	// Dump charge infos to array
+	// Dump charge infos to array, array is allocated beforehand to the correct size
 	chargeInfoArray := make([]ChargeInfo, len(employeeIdToChargeInfoMap))
 	idx := 0
 	for _, element := range employeeIdToChargeInfoMap {
@@ -64,7 +64,7 @@ func BuildSortedChargeInfoArray(filename string) ([]ChargeInfo, error) {
 		idx++
 	}
 
-	// Sort charge infos
+	// Sort charge info structures in nlog(n) time with quicksort
 	sortByChargeTimeAndEmployeeId(chargeInfoArray)
 
 	return chargeInfoArray, nil
