@@ -15,7 +15,7 @@ type ChargeInfo struct {
 	Elapsed    time.Duration
 }
 
-// BuildSortedChargeInfoArray builds an change info array, sorted by duration desc and employee asc
+// BuildSortedChargeInfoArray reads a data file and builds a change info array, sorted by duration desc and employee asc
 func BuildSortedChargeInfoArray(filename string) ([]ChargeInfo, error) {
 	// Open file
 	file, err := os.Open(filename)

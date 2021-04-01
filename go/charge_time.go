@@ -35,7 +35,7 @@ func main() {
 	}
 
 	// Build ordered array of charge info structures, that contains employee id and charge time
-	chargeInfoArray, err := calc.BuildOrderedChargeInfoArray(datafile)
+	chargeInfoArray, err := calc.BuildSortedChargeInfoArray(datafile)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -45,6 +45,6 @@ func main() {
 		if idx >= lines {
 			break
 		}
-		fmt.Printf("%s %s\n", chargeInfo.Plate, chargeTimeFmt.FmtDuration(chargeInfo.Elapsed))
+		fmt.Printf("%s %s\n", chargeInfo.EmployeeId, chargeTimeFmt.FmtDuration(chargeInfo.Elapsed))
 	}
 }
