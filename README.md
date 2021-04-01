@@ -73,7 +73,7 @@ go test -bench . github.com/mtormento/evchargetime/go/calc
 ```
 
 ### Result on test system
-This benchmark has run the program 4 times in a row on 1 millions rows on a test system.
+This benchmark run has executed the program 4 times in a row on about 1 millions rows on a test system.
 ```
 goos: linux
 goarch: amd64
