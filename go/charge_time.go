@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"daze.com/evchargetime/go/calc"
-	chargeTimeFmt "daze.com/evchargetime/go/fmt"
+	"github.com/mtormento/evchargetime/go/calc"
+	chargeTimeFmt "github.com/mtormento/evchargetime/go/fmt"
 )
 
 var (

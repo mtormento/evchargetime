@@ -1,4 +1,4 @@
-module daze.com/evchargetime
+module github.com/mtormento/evchargetime
 
 go 1.16
 
